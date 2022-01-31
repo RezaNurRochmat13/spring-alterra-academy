@@ -2,12 +2,18 @@ name: Spring Actions Github Demo
 on: [push]
 jobs:
   build:
-    runs-on: openjdk-8:latest
+    runs-on: ubuntu-latest
     steps:
       - run: echo "Starting building application"
-      - run: mvn clean install
+      - name: Setup OpenJDK
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+      - name: Maven clean
+        run: mvn --batch-mode --update-snapshots clean install
   package:
-    runs-on: openjdk-8:latest
+    runs-on: ubuntu-latest
     steps:
       - run: echo "Start packaging application"
-      - run: mvn package
+      - name: Package application
+        run: mvn --batch-mode --update-snapshots package
