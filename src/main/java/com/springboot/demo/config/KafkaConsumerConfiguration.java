@@ -1,7 +1,6 @@
 package com.springboot.demo.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,12 +18,17 @@ public class KafkaConsumerConfiguration {
     @Value("${spring.kafka.bootstrap-servers}")
     private String kafkaBootstrapAddress;
 
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
+
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, String> consumerFactory = new HashMap<>();
         consumerFactory.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapAddress);
-        consumerFactory.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, String.valueOf(StringSerializer.class));
-        consumerFactory.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, String.valueOf(StringSerializer.class));
+        consumerFactory.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        consumerFactory.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        consumerFactory.put(ConsumerConfig.GROUP_ID_CONFIG, "Lryy8ngdTEKKeh0t06Nr9Q");
+        consumerFactory.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         return new DefaultKafkaConsumerFactory(consumerFactory);
     }

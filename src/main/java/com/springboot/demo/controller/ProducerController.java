@@ -18,7 +18,7 @@ public class ProducerController {
 
     @PostMapping("/publish")
     public ResponseEntity<String> publishMessage() throws Exception {
-        kafkaTemplate.send("students", "Ardi Setiawan");
+        kafkaTemplate.send("students", "ABC");
 
         return new ResponseEntity<>("Success publish message to kafka", HttpStatus.OK);
     }
