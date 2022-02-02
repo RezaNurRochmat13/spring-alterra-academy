@@ -1,7 +1,7 @@
 package com.springboot.demo.config;
 
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +21,8 @@ public class KafkaProducerConfiguration {
     public ProducerFactory<String, String> producerFactory() {
         Map<String, String> producerMap = new HashMap<String, String>();
         producerMap.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapAddress);
-        producerMap.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, String.valueOf(StringSerializer.class));
-        producerMap.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, String.valueOf(StringSerializer.class));
+        producerMap.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        producerMap.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         return new DefaultKafkaProducerFactory(producerMap);
     }
